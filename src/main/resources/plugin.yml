@@ -1,0 +1,6 @@
+name: ItemBlacklist
+version: ${project.version}
+main: me.outsparkled.itemblacklist.ItemBlacklist
+api-version: 1.16
+authors: [ outsparkled ]
+description: A spigot plugin that prevents players from owning and placing illegal items!
