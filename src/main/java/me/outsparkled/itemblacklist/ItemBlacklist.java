@@ -98,7 +98,7 @@ public final class ItemBlacklist extends JavaPlugin {
 
 
             }
-        }, 0L, 20L);
+        }, 0L, getConfig().getLong("check-delay"));
 
 
     }
