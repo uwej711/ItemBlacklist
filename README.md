@@ -2,6 +2,7 @@
 A spigot plugin that prevents players from owning and placing illegal items!
 
 Permissions:
+
   -ItemBlacklist.Items.bypass:
     bypass inventory scans
    
