@@ -20,7 +20,7 @@ public class PlaceBlacklist implements Listener {
         Player player = e.getPlayer();
         //get player who placed the block
 
-        if(player.hasPermission("BetterEssentials.PlaceBlacklist.bypass")){
+        if(player.hasPermission("ItemBlacklist.Blocks.bypass") || player.hasPermission("ItemBlacklist.bypass")){
             return;
             //if player has bypass permission, don't check block
         }

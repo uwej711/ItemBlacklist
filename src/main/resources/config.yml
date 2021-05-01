@@ -1,0 +1,14 @@
+banned-items:
+  - 'barrier'
+  - 'bedrock'
+  - 'command_block'
+  - 'repeating_command_block'
+  - 'chain_command_block'
+  - 'command_block_minecart'
+  - 'end_portal_frame'
+  - 'spawner'
+banned-blocks:
+  - 'barrier'
+  - 'bedrock'
+  - 'end_portal_frame'
+  - 'spawner'
