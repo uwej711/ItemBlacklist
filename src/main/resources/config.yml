@@ -1,3 +1,4 @@
+#items that will be deleted from player's inventories
 banned-items:
   - 'barrier'
   - 'bedrock'
@@ -7,9 +8,13 @@ banned-items:
   - 'command_block_minecart'
   - 'end_portal_frame'
   - 'spawner'
+
+#blocks that players will not be able to place
 banned-blocks:
   - 'barrier'
   - 'bedrock'
   - 'end_portal_frame'
   - 'spawner'
+
+#the delay (in ticks) between inventory scans
 check-delay: 20

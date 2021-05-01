@@ -1,7 +1,5 @@
 package me.outsparkled.itemblacklist;
 
-
-
 import me.outsparkled.itemblacklist.events.PlaceBlacklist;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -46,9 +44,6 @@ public final class ItemBlacklist extends JavaPlugin {
 
                     for(String banned_item : banned_items){
 
-
-
-                        //player.sendMessage("checking...");
                         Inventory inv = player.getInventory();
                         ItemStack offHand = player.getEquipment().getItemInOffHand();
                         ItemStack cursor = player.getItemOnCursor();
@@ -81,26 +76,10 @@ public final class ItemBlacklist extends JavaPlugin {
                             player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 2F, 1F);
                             player.sendMessage(ChatColor.RED + "Illegal items were removed from your inventory!");
                         }
-
-
-
-
-
-
-
-
-
-
-
                     }
-
                 }
-
-
             }
         }, 0L, getConfig().getLong("check-delay"));
-
-
     }
 }
 

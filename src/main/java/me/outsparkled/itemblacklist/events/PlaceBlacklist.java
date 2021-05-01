@@ -1,5 +1,3 @@
-//PlaceBlacklist
-
 package me.outsparkled.itemblacklist.events;
 
 import me.outsparkled.itemblacklist.ItemBlacklist;
@@ -20,16 +18,12 @@ public class PlaceBlacklist implements Listener {
 
     @EventHandler
     public void onPlaceBlock(BlockPlaceEvent e) {
-        //blockPlaceEvent
         ItemStack placedBlock = new ItemStack(e.getBlock().getType());
-        //get ItemStack of placed block
 
         Player player = e.getPlayer();
-        //get player who placed the block
 
         if(player.hasPermission("ItemBlacklist.Blocks.bypass") || player.hasPermission("ItemBlacklist.bypass")){
             return;
-            //if player has bypass permission, don't check block
         }
 
         List<String> banned_blocks_list = plugin.getConfig().getStringList("banned-blocks");
@@ -41,8 +35,5 @@ public class PlaceBlacklist implements Listener {
                 e.setCancelled(true);
             }
         }
-
-        //if ItemStack is blacklisted, cancel
-
     }
 }
