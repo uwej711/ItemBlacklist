@@ -22,9 +22,10 @@ public class PlaceBlacklist implements Listener {
 
         Player player = e.getPlayer();
 
-        if(player.hasPermission("ItemBlacklist.Blocks.bypass") || player.hasPermission("ItemBlacklist.bypass")){
+        if(player.hasPermission("ItemBlacklist.Blocks.bypass")){
             return;
         }
+
 
         List<String> banned_blocks_list = plugin.getConfig().getStringList("banned-blocks");
         String[] banned_blocks = new String[banned_blocks_list.size()];
