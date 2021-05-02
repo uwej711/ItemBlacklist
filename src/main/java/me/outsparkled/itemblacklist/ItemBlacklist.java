@@ -12,74 +12,78 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-
 
 public final class ItemBlacklist extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
         System.out.println("ItemBlacklist has started");
+
         getConfig().options().copyDefaults();
         saveDefaultConfig();
-
-
 
         getServer().getPluginManager().registerEvents(new PlaceBlacklist(), this);
 
         BukkitScheduler scheduler = getServer().getScheduler();
-        scheduler.runTaskTimer(this, new Runnable() {
-            @Override
-            public void run() {
+        scheduler.runTaskTimer(
+            this,
+            new Runnable() {
 
-                List<String> banned_items_list = getConfig().getStringList("banned-items");
-                String[] banned_items = new String[banned_items_list.size()];
-                banned_items_list.toArray(banned_items);
+                @Override
+                public void run() {
+                    List<String> banned_items_list = getConfig().getStringList("banned-items");
 
-                for(Player player : getServer().getOnlinePlayers()){
-                    if(player.hasPermission("ItemBlacklist.Items.bypass")){
-                        return;
-                    }
+                    for (Player player : getServer().getOnlinePlayers()) {
+                        if (player.hasPermission("ItemBlacklist.Items.bypass")) {
+                            return;
+                        }
 
-                    for(String banned_item : banned_items){
+                        for (String banned_item : banned_items_list) {
+                            Inventory inv = player.getInventory();
+                            ItemStack offHand =
+                                player.getEquipment() != null
+                                        ? player.getEquipment().getItemInOffHand()
+                                        : null;
+                            ItemStack cursor = player.getItemOnCursor();
+                            ItemStack air = new ItemStack(Material.AIR, 1);
 
-                        Inventory inv = player.getInventory();
-                        ItemStack offHand = player.getEquipment().getItemInOffHand();
-                        ItemStack cursor = player.getItemOnCursor();
-                        ItemStack air = new ItemStack(Material.AIR, 1);
+                            boolean found = false;
+                            for (ItemStack stack : inv.getContents()) {
+                                if (isBanned(banned_item, stack)) {
+                                    inv.removeItem(stack);
+                                    found = true;
+                                }
+                            }
 
-
-
-
-                        boolean found = false;
-                        for (ItemStack stack : inv.getContents()) {
-                            if(stack != null && stack.getType() == Material.matchMaterial(banned_item.toUpperCase(Locale.ROOT))) {
-                                inv.removeItem(stack);
+                            if (isBanned(banned_item, offHand)) {
+                                player.getEquipment().setItemInOffHand(air);
                                 found = true;
                             }
 
-                        }
+                            if (isBanned(banned_item, cursor)) {
+                                player.setItemOnCursor(air);
+                                found = true;
+                            }
 
-                        if(offHand != null && offHand.getType() == Material.matchMaterial(banned_item.toUpperCase(Locale.ROOT))) {
-                            player.getEquipment().setItemInOffHand(air);
-                            found = true;
-                        }
-
-
-                        if(cursor != null && cursor.getType() == Material.matchMaterial(banned_item.toUpperCase(Locale.ROOT))) {
-                            player.setItemOnCursor(air);
-                            found = true;
-                        }
-
-                        if(found) {
-                            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 2F, 1F);
-                            player.sendMessage(ChatColor.RED + "Illegal items were removed from your inventory!");
+                            informPlayerIfNeeded(player, found);
                         }
                     }
                 }
-            }
-        }, 0L, getConfig().getLong("check-delay"));
+            },
+            0L,
+            getConfig().getLong("check-delay")
+        );
+    }
+
+    private void informPlayerIfNeeded(Player player, boolean found) {
+        if (found) {
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 2F, 1F);
+            player.sendMessage(ChatColor.RED + "Illegal items were removed from your inventory!");
+        }
+    }
+
+    private boolean isBanned(String banned_item, ItemStack stack) {
+        return stack != null && stack.getType() == Material.matchMaterial(banned_item.toUpperCase(Locale.ROOT));
     }
 }
 

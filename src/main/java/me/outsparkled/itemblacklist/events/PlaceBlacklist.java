@@ -22,16 +22,12 @@ public class PlaceBlacklist implements Listener {
 
         Player player = e.getPlayer();
 
-        if(player.hasPermission("ItemBlacklist.Blocks.bypass")){
+        if (player.hasPermission("ItemBlacklist.Blocks.bypass")) {
             return;
         }
 
-
         List<String> banned_blocks_list = plugin.getConfig().getStringList("banned-blocks");
-        String[] banned_blocks = new String[banned_blocks_list.size()];
-        banned_blocks_list.toArray(banned_blocks);
-
-        for(String banned_block : banned_blocks){
+        for (String banned_block : banned_blocks_list) {
             if (placedBlock.getType() == Material.matchMaterial(banned_block.toUpperCase(Locale.ROOT))) {
                 e.setCancelled(true);
             }
